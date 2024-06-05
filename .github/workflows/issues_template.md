@@ -1,5 +1,5 @@
 ---
-name: issue-template
+name: issues-template
 about: General issue template
 title: ''
 labels: ''
