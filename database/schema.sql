@@ -12,7 +12,7 @@ DROP TABLE lonely_rating CASCADE;
 DROP TABLE mental_rating CASCADE;
 DROP TABLE happiness_rating CASCADE;
 DROP TABLE emotion CASCADE;
-DROP TABLE user CASCADE;
+DROP TABLE user_info CASCADE;
 DROP TABLE user_trigger CASCADE;
 DROP TABLE user_wellbeing CASCADE;
 DROP TABLE user_mental_health CASCADE;
@@ -96,7 +96,7 @@ CREATE TABLE emotion (
 );
 
 
-CREATE TABLE user (
+CREATE TABLE user_info (
     user_id INT GENERATED ALWAYS AS IDENTITY,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
@@ -111,20 +111,20 @@ CREATE TABLE user_trigger (
     user_id INT NOT NULL,
     PRIMARY KEY (user_trigger_id),
     FOREIGN KEY(trigger_id) REFERENCES trigger(trigger_id),
-    FOREIGN KEY(user_id) REFERENCES user(user_id)
+    FOREIGN KEY(user_id) REFERENCES user_info(user_id)
 );
 
 
 CREATE TABLE user_wellbeing (
     user_wellbeing_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    input_date_id DATE NOT NULL,
+    input_date_id INT NOT NULL,
     sleep_rating_id INT,
     water_rating_id INT,
     meal_rating_id INT,
     exercise_rating_id INT,
     PRIMARY KEY (user_wellbeing_id),
-    FOREIGN KEY(user_id) REFERENCES user(user_id),
+    FOREIGN KEY(user_id) REFERENCES user_info(user_id),
     FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),
     FOREIGN KEY(sleep_rating_id) REFERENCES sleep_rating(sleep_rating_id),
     FOREIGN KEY(water_rating_id) REFERENCES water_rating(water_rating_id),
@@ -136,7 +136,7 @@ CREATE TABLE user_wellbeing (
 CREATE TABLE user_mental_health (
     user_mental_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    input_date_id DATE NOT NULL,
+    input_date_id INT NOT NULL,
     stress_rating_id INT,
     lonely_rating_id INT,
     mental_rating_id INT NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE user_mental_health (
     services_awareness BOOLEAN NOT NULL,
     need_to_talk BOOLEAN NOT NULL,
     PRIMARY KEY (user_mental_id),
-    FOREIGN KEY(user_id) REFERENCES user(user_id),
+    FOREIGN KEY(user_id) REFERENCES user_info(user_id),
     FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),
     FOREIGN KEY(stress_rating_id) REFERENCES stress_rating(stress_rating_id),
     FOREIGN KEY(lonely_rating_id) REFERENCES lonely_rating(lonely_rating_id),
@@ -156,10 +156,10 @@ CREATE TABLE user_mental_health (
 CREATE TABLE user_emotion (
     user_emotion_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    input_date_id DATE NOT NULL,
+    input_date_id INT NOT NULL,
     emotion_id INT NOT NULL,
     PRIMARY KEY (user_emotion_id),
-    FOREIGN KEY(user_id) REFERENCES user(user_id),
+    FOREIGN KEY(user_id) REFERENCES user_info(user_id),
     FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),
     FOREIGN KEY(emotion_id) REFERENCES emotion(emotion_id)
 );
