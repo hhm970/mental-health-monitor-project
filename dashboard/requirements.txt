@@ -1,0 +1,9 @@
+streamlit
+pandas
+pytest
+python-dotenv
+pylint
+altair
+boto3
+psycopg2-binary
+rapidfuzz

@@ -9,6 +9,9 @@ venv/
 *.lock.hcl
 *tfstate.backup
 
+# diagrams - to be implemented into README.md
+/diagrams
+
 # testing
 .pytest_cache
 __pycache__
