@@ -1,8 +1,6 @@
 -- This file contains table definitions for the database.
 
 
-DROP TABLE input_date CASCADE;
-DROP TABLE trigger CASCADE;
 DROP TABLE sleep_rating CASCADE;
 DROP TABLE water_rating CASCADE;
 DROP TABLE meal_rating CASCADE;
@@ -17,13 +15,6 @@ DROP TABLE user_trigger CASCADE;
 DROP TABLE user_wellbeing CASCADE;
 DROP TABLE user_mental_health CASCADE;
 DROP TABLE user_emotion CASCADE;
-
-
-CREATE TABLE input_date (
-    input_date_id INT GENERATED ALWAYS AS IDENTITY,
-    input_date DATE NOT NULL,
-    PRIMARY KEY (input_date_id)
-);
 
 
 CREATE TABLE sleep_rating (
@@ -100,14 +91,13 @@ CREATE TABLE user_info (
 CREATE TABLE user_wellbeing (
     user_wellbeing_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    input_date_id INT NOT NULL,
+    input_timestamp TIMESTAMP NOT NULL,
     sleep_rating_id INT,
     water_rating_id INT,
     meal_rating_id INT,
     exercise_rating_id INT,
     PRIMARY KEY (user_wellbeing_id),
     FOREIGN KEY(user_id) REFERENCES user_info(user_id),
-    FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),
     FOREIGN KEY(sleep_rating_id) REFERENCES sleep_rating(sleep_rating_id),
     FOREIGN KEY(water_rating_id) REFERENCES water_rating(water_rating_id),
     FOREIGN KEY(meal_rating_id) REFERENCES meal_rating(meal_rating_id),
@@ -118,14 +108,13 @@ CREATE TABLE user_wellbeing (
 CREATE TABLE user_mental_health (
     user_mental_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    input_date_id INT NOT NULL,
+    input_timestamp TIMESTAMP NOT NULL,
     stress_rating_id INT,
     lonely_rating_id INT,
     mental_rating_id INT NOT NULL,
     happiness_rating_id INT NOT NULL,
     PRIMARY KEY (user_mental_id),
     FOREIGN KEY(user_id) REFERENCES user_info(user_id),
-    FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),
     FOREIGN KEY(stress_rating_id) REFERENCES stress_rating(stress_rating_id),
     FOREIGN KEY(lonely_rating_id) REFERENCES lonely_rating(lonely_rating_id),
     FOREIGN KEY(mental_rating_id) REFERENCES mental_rating(mental_rating_id),
@@ -136,10 +125,13 @@ CREATE TABLE user_mental_health (
 CREATE TABLE user_emotion (
     user_emotion_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    input_date_id INT NOT NULL,
+    input_timestamp TIMESTAMP NOT NULL,
     emotion_id INT NOT NULL,
     PRIMARY KEY (user_emotion_id),
     FOREIGN KEY(user_id) REFERENCES user_info(user_id),
-    FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),
     FOREIGN KEY(emotion_id) REFERENCES emotion(emotion_id)
 );
+
+
+INSERT INTO emotion (emotion_name)
+VALUES ('Happiness'), ('Love'), ('Hope'), ('Joy'), ('Compassion'), ('Contentment'), ('Gratitude'), ('Interest'), ('Sadness'), ('Disappointment'), ('Fear'), ('Guilt'), ('Shame'), ('Disgust'), ('Anger'), ('Frustration');
