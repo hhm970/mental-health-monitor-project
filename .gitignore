@@ -12,6 +12,9 @@ venv/
 # diagrams - to be implemented into README.md
 /diagrams
 
+# JSON files - ignored due to large capacity
+.json
+
 # testing
 .pytest_cache
 __pycache__

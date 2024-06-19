@@ -26,13 +26,6 @@ CREATE TABLE input_date (
 );
 
 
-CREATE TABLE trigger (
-    trigger_id INT GENERATED ALWAYS AS IDENTITY,
-    trigger_name VARCHAR(20) UNIQUE NOT NULL,
-    PRIMARY KEY (trigger_id)
-);
-
-
 CREATE TABLE sleep_rating (
     sleep_rating_id INT GENERATED ALWAYS AS IDENTITY,
     sleep_rating INT NOT NULL,
@@ -98,20 +91,9 @@ CREATE TABLE emotion (
 
 CREATE TABLE user_info (
     user_id INT GENERATED ALWAYS AS IDENTITY,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
+    user_name TEXT NOT NULL,
     email TEXT NOT NULL,
     PRIMARY KEY (user_id)
-);
-
-
-CREATE TABLE user_trigger (
-    user_trigger_id INT GENERATED ALWAYS AS IDENTITY,
-    trigger_id INT NOT NULL,
-    user_id INT NOT NULL,
-    PRIMARY KEY (user_trigger_id),
-    FOREIGN KEY(trigger_id) REFERENCES trigger(trigger_id),
-    FOREIGN KEY(user_id) REFERENCES user_info(user_id)
 );
 
 
@@ -141,8 +123,6 @@ CREATE TABLE user_mental_health (
     lonely_rating_id INT,
     mental_rating_id INT NOT NULL,
     happiness_rating_id INT NOT NULL,
-    services_awareness BOOLEAN NOT NULL,
-    need_to_talk BOOLEAN NOT NULL,
     PRIMARY KEY (user_mental_id),
     FOREIGN KEY(user_id) REFERENCES user_info(user_id),
     FOREIGN KEY(input_date_id) REFERENCES input_date(input_date_id),

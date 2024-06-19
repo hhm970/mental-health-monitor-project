@@ -1,0 +1,8 @@
+pandas
+pytest
+python-dotenv
+pylint
+boto3
+psycopg2-binary
+rapidfuzz
+requests
