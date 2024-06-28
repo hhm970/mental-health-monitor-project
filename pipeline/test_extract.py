@@ -1,5 +1,71 @@
 """Tests for extract.py"""
 
 import pytest
+from unittest import TestCase
+from unittest.mock import MagicMock, patch, mock_open
 
-from extract import input_api_data_into_json_file
+from extract import get_sheets_api_data, input_api_data_into_json_file
+
+
+def test_get_sheets_api_data_success(requests_mock, example_sheets_api_response):
+    """Tests for a successful GET request to Google Sheets API."""
+
+    config = {"API_KEY": "asdkjasbdlkbaskdbas;",
+              "SPREADSHEET_ID": "1qg_1umxZXJiqpZymo1EC8FUWugNGNZJ_liZkJJP2n0w",
+              "SPREADSHEET_RANGE": "responses"}
+
+    api_url = f"https://sheets.googleapis.com/v4/spreadsheets/{config['SPREADSHEET_ID']}/values/{config['SPREADSHEET_RANGE']}?key={config['API_KEY']}"
+
+    requests_mock.get(api_url, json=example_sheets_api_response)
+
+    result = get_sheets_api_data(api_url)
+
+    assert isinstance(result, dict)
+    assert list(result.keys()) == ["range", "majorDimension", "values"]
+
+
+def test_get_sheets_api_data_empty_response(requests_mock, empty_sheets_api_response):
+    """Tests for a successful GET request when there is no data in the response."""
+
+    config = {"API_KEY": "asdkjasbdlkbaskdbas;",
+              "SPREADSHEET_ID": "1qg_1umxZXJiqpZymo1EC8FUWugNGNZJ_liZkJJP2n0w",
+              "SPREADSHEET_RANGE": "responses"}
+
+    api_url = f"https://sheets.googleapis.com/v4/spreadsheets/{config['SPREADSHEET_ID']}/values/{config['SPREADSHEET_RANGE']}?key={config['API_KEY']}"
+
+    requests_mock.get(api_url, json=empty_sheets_api_response)
+
+    result = get_sheets_api_data(api_url)
+
+    assert isinstance(result, dict)
+    assert list(result.keys()) == []
+
+
+# def test_input_api_data_into_json_file_success(example_sheets_api_response):
+#     """Tests for a successful writing into a JSON file, given JSON data."""
+
+#     mock_file = MagicMock()
+
+#     mock_file.name = "mock.json"
+
+#     mock_file.__enter__().write()
+
+#     m = mock_open(read_data=str(example_sheets_api_response))
+
+#     with patch("__main__.open", m):
+#         result = input_api_data_into_json_file(
+#             example_sheets_api_response, mock_file.name)
+
+#     m.assert_called()
+
+
+def test_input_empty_data_into_json(empty_sheets_api_response):
+    """Tests that the function input_api_data_into_json_file() returns None
+    when given an empty object."""
+
+    json_filename = "mock.json"
+
+    result = input_api_data_into_json_file(
+        empty_sheets_api_response, json_filename)
+
+    assert result is None

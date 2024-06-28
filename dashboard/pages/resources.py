@@ -1,0 +1,1 @@
+"""Script detailing the Resources page of the Streamlit dashboard."""

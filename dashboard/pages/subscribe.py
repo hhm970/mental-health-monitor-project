@@ -1,0 +1,1 @@
+"""Script detailing the subscription process of the mental health monitor."""

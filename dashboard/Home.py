@@ -36,3 +36,14 @@ if __name__ == "__main__":
                        page_icon=":brain:", layout="wide")
 
     st.title("Welcome To Mood for Thought, your data-driven mental-health monitor!")
+
+    with st.sidebar:
+        st.title("Navigator :brain:")
+        st.write("---")
+        st.page_link("Home.py")
+        st.page_link("pages/local_data.py", label="Your Mental Health Journey")
+        st.page_link("pages/global_data.py", label="Our Community's Journey")
+        st.write("---")
+        st.page_link("pages/subscribe.py", label="Subscribe")
+        st.page_link("pages/resources.py", label="Resources for you")
+        st.page_link("pages/aboutus.py", label="About Us")
