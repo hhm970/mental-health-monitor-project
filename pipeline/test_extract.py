@@ -41,22 +41,20 @@ def test_get_sheets_api_data_empty_response(requests_mock, empty_sheets_api_resp
     assert list(result.keys()) == []
 
 
-# def test_input_api_data_into_json_file_success(example_sheets_api_response):
-#     """Tests for a successful writing into a JSON file, given JSON data."""
+def test_input_api_data_into_json_file_success(example_sheets_api_response):
+    """Tests for a successful writing into a JSON file, given JSON data."""
 
-#     mock_file = MagicMock()
+    mock_file = MagicMock()
 
-#     mock_file.name = "mock.json"
+    mock_file.name = "mock.json"
 
-#     mock_file.__enter__().write()
+    m = mock_open()
 
-#     m = mock_open(read_data=str(example_sheets_api_response))
+    with patch("builtins.open", m):
+        input_api_data_into_json_file(
+            example_sheets_api_response, mock_file.name)
 
-#     with patch("__main__.open", m):
-#         result = input_api_data_into_json_file(
-#             example_sheets_api_response, mock_file.name)
-
-#     m.assert_called()
+    m.assert_called_once_with(mock_file.name, 'w')
 
 
 def test_input_empty_data_into_json(empty_sheets_api_response):
