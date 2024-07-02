@@ -40,7 +40,6 @@ def input_api_data_into_json_file(json_data: dict, json_file: str) -> None:
 
     with open(json_file, "w") as g:
         json.dump(existing_data, g, indent=4)
-        return True
 
 
 if __name__ == "__main__":
