@@ -52,7 +52,7 @@ def test_input_api_data_into_json_file_success(example_sheets_api_response):
         input_api_data_into_json_file(
             example_sheets_api_response, mock_file.name)
 
-    m.assert_called_once_with(mock_file.name, 'w')
+    m.assert_called_once_with(mock_file.name, 'w', encoding='utf-8')
 
 
 def test_input_empty_data_into_json(empty_sheets_api_response):
