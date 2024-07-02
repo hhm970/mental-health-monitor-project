@@ -1,10 +1,10 @@
 """Script that create the home page of the dashboard."""
 
 from os import environ as ENV
-from datetime import datetime, timedelta
+# from datetime import datetime, timedelta
 
-import pandas as pd
-import altair as alt
+# import pandas as pd
+# import altair as alt
 import streamlit as st
 from dotenv import load_dotenv
 

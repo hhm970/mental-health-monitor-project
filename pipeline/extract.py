@@ -17,15 +17,14 @@ from dotenv import load_dotenv
 def get_sheets_api_data(url: str) -> dict:
     """Given the URL of an API endpoint, returns the response as a JSON dict."""
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
 
     if response.status_code == 200:
         new_data = response.json()
         return new_data
 
-    else:
-        print("Failed to retrieve data from the API. Status code:",
-              response.status_code)
+    print("Failed to retrieve data from the API. Status code:",
+          response.status_code)
 
 
 def input_api_data_into_json_file(json_data: dict, json_file: str) -> None:
@@ -38,7 +37,7 @@ def input_api_data_into_json_file(json_data: dict, json_file: str) -> None:
 
     existing_data.append(json_data)
 
-    with open(json_file, "w") as g:
+    with open(json_file, "w", encoding="utf-8") as g:
         json.dump(existing_data, g, indent=4)
 
 
@@ -52,4 +51,5 @@ if __name__ == "__main__":
 
     api_data = get_sheets_api_data(api_url)
 
-    input_api_data_into_json_file(api_data, f"{json_filename}.json")
+    if api_data is not None:
+        input_api_data_into_json_file(api_data, f"{json_filename}.json")

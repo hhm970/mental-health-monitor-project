@@ -1,7 +1,5 @@
 """Tests for extract.py"""
 
-import pytest
-from unittest import TestCase
 from unittest.mock import MagicMock, patch, mock_open
 
 from extract import get_sheets_api_data, input_api_data_into_json_file
@@ -63,7 +61,5 @@ def test_input_empty_data_into_json(empty_sheets_api_response):
 
     json_filename = "mock.json"
 
-    result = input_api_data_into_json_file(
-        empty_sheets_api_response, json_filename)
-
-    assert result is None
+    assert input_api_data_into_json_file(
+        empty_sheets_api_response, json_filename) is None
