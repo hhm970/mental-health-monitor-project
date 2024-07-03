@@ -9,9 +9,6 @@ venv/
 *.lock.hcl
 *tfstate.backup
 
-# diagrams - to be implemented into README.md
-/diagrams
-
 # JSON files - ignored due to large capacity
 *.json
 
