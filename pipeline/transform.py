@@ -10,16 +10,16 @@ def get_user_records(json_filename: str) -> list[list]:
     pass
 
 
-def filter_records_older_24hrs(input_records: list[list[str]]) -> list[list[str]]:
+def filter_records_older_24hrs(input_records: list[list[str]]) -> list[int]:
     """
     Given a list of lists, where each embedded list has a first element of a 
     timestamp, returns the list of lists, but only containing indices of lists with 
     a timestamp within the last 24 hours.
     """
-    pass
+    n = datetime.today()
 
 
-def make_emotions_list(input_records: list[list]) -> list[list]:
+def make_emotions_list(input_records: list[list[str]]) -> list[list]:
     """Given our user records, where each embedded list has a 6th element containing
     a string with commas separating each substring,
 
@@ -31,13 +31,13 @@ def make_emotions_list(input_records: list[list]) -> list[list]:
     pass
 
 
-def make_all_scores_ints(input_records: list[list]):
+def make_all_scores_ints(input_records: list[list[str]]) -> list[list]:
     """Given our user records, we turn each numeric string entry in each embedded
     list into an int object."""
     pass
 
 
-def check_for_empty_entries(input_records: list[list]):
+def check_for_empty_entries(input_records: list[list]) -> list[list]:
     """Given our user records, we turn each empty string in each embedded object
     into None."""
     pass
