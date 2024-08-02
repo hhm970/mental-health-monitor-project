@@ -44,7 +44,7 @@ def test_input_api_data_into_json_file_success(example_sheets_api_response):
 
     mock_file = MagicMock()
 
-    mock_file.name = "mock.json"
+    mock_file.name = "pipeline/mock.json"
 
     m = mock_open()
 
