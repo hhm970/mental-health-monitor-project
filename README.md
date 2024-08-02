@@ -10,6 +10,31 @@ Hi, and welcome to my solo-project for a data-driven mental-health monitor! The 
 
 >The UK is going through a mental health crisis at the moment, with public mental health services being understaffed and in high demand. To mitigate the negative effects of bad mental health on individuals, we can use a data-driven pipeline-based tool.
 
+## Requirements
+
+### Prerequisites
+
+- ```Python 3.11```
+- `pip3`
+- `awscli`
+- `Docker`
+- `Terraform`
+- `PostgreSQL`
+
+### Imports
+Each sub-folder in this repository holds their own `requirements.txt` file. This is has been done to ensure clarity in what modules the scripts require.
+
+In each folder's directory to download the requirements use this command:
+
+```sh
+pip3 install -r requirements.txt
+  ```
+
+**Secrets/Authentication**
+> To be able to run these scripts locally the details must be provided in a `.env` file within each folder.
+> Further details of the secrets required can be found in sub-folders `README.md`
+
+## Cloud Deployment
 
 ## Directory Structure
 

@@ -2,52 +2,43 @@
 
 from unittest.mock import MagicMock
 
-import pytest
-
 from transform import (get_user_records, filter_records_older_24hrs,
                        make_emotions_list, make_all_scores_ints, check_for_empty_entries)
 
+
+OPTIONAL_ENTRIES_INDICES = {1, 2, 3, 4, 6, 7, 10}
+
+REQUIRED_ENTRIES_INDICES = {8, 9}
+
 NUMERIC_ENTRIES_INDICES = {1, 2, 3, 4, 6, 7, 8, 9}
-REQUIRED_ENTRIES_INDICES = {9, 10}
 
 
-def get_user_records_example_response(example_extracted_json):
+def test_get_user_records_example_response():
 
-    assert isinstance(get_user_records(example_extracted_json), list)
+    mock_file = MagicMock()
 
-    for record in example_extracted_json:
+    mock_file.name = "mock.json"
+
+    assert isinstance(get_user_records(mock_file.name), list)
+
+    for record in get_user_records(mock_file.name):
         assert isinstance(record, list)
-        assert len(record) == 11
+        assert len(record) == 12
 
 
-def get_user_records_optional_responses_empty(all_optional_responses_empty_json):
+def test_filter_records_older_24hrs_success(example_user_records, patch_datetime_now):
 
-    assert isinstance(get_user_records(
-        all_optional_responses_empty_json), list)
-
-    for record in all_optional_responses_empty_json:
-        assert isinstance(record, list)
-        assert len(record) == 11
+    assert isinstance(filter_records_older_24hrs(example_user_records), set)
+    assert len(filter_records_older_24hrs(example_user_records)) == 0
 
 
-def get_user_records_no_responses(no_responses_json):
+def test_filter_records_older_24hrs_no_records(no_user_records):
 
-    assert isinstance(get_user_records(no_responses_json), list)
-    assert len(get_user_records(no_responses_json)) == 0
-
-
-def filter_records_older_24hrs_success(example_user_records):
-    # TODO: Research how to mock datetime object!
-    pass
-
-
-def filter_records_older_24hrs_no_records(no_user_records):
-
-    assert isinstance(filter_records_older_24hrs(no_user_records), list)
+    assert isinstance(filter_records_older_24hrs(no_user_records), set)
     assert len(filter_records_older_24hrs(no_user_records)) == 0
 
 
-def make_emotions_list_example_records(example_user_records):
+def test_make_emotions_list_example_records(example_user_records):
 
     for record in make_emotions_list(example_user_records):
 
@@ -62,49 +53,56 @@ def make_emotions_list_example_records(example_user_records):
                 assert isinstance(emotion, str)
 
 
-def make_emotions_list_record_no_emotions(example_user_records_no_emotions):
+def test_make_emotions_list_record_no_emotions(
+        example_user_records_no_emotions_empty_entries_formatted):
 
-    for record in make_emotions_list(example_user_records_no_emotions):
-
-        assert isinstance(record[5], list)
-
-        assert len(record[5]) == 0
-
-
-def make_all_scores_ints_success(example_user_records):
-
-    for record in make_all_scores_ints(example_user_records):
-
-        for i in NUMERIC_ENTRIES_INDICES:
-
-            assert isinstance(record[i], int)
-
-
-def make_all_scores_ints_no_records(no_user_records):
-
-    assert make_all_scores_ints(no_user_records) == []
-
-
-def make_all_scores_ints_all_optional_qs_blank(user_record_all_optional_qs_blank):
-
-    for record in make_all_scores_ints(user_record_all_optional_qs_blank):
-
-        for i in REQUIRED_ENTRIES_INDICES:
-
-            assert isinstance(record[i], int)
-
-
-def check_for_empty_entries_record_no_emotions(example_user_records_no_emotions):
-
-    for record in check_for_empty_entries(example_user_records_no_emotions):
+    for record in make_emotions_list(example_user_records_no_emotions_empty_entries_formatted):
 
         assert record[5] is None
 
 
-def check_for_empty_entries_all_optional_qs_blank(user_record_all_optional_qs_blank):
+def test_make_all_scores_ints_success(example_user_records):
+
+    example_user_records_no_empty_str = check_for_empty_entries(
+        example_user_records)
+
+    for record in make_all_scores_ints(example_user_records_no_empty_str):
+
+        for i in NUMERIC_ENTRIES_INDICES:
+
+            if record[i] is not None:
+
+                assert isinstance(record[i], int)
+
+
+def test_make_all_scores_ints_no_records(no_user_records):
+
+    assert make_all_scores_ints(no_user_records) == []
+
+
+def test_make_all_scores_ints_all_optional_qs_blank(user_record_all_optional_qs_blank):
+
+    user_record_all_optional_qs_blank_no_empty_str = check_for_empty_entries(
+        user_record_all_optional_qs_blank)
+
+    for record in make_all_scores_ints(user_record_all_optional_qs_blank_no_empty_str):
+
+        for i in REQUIRED_ENTRIES_INDICES:
+
+            assert isinstance(record[i], int)
+
+
+def test_check_for_empty_entries_record_no_emotions(example_user_records_no_emotions_empty_entries_formatted):
+
+    for record in check_for_empty_entries(example_user_records_no_emotions_empty_entries_formatted):
+
+        assert record[5] is None
+
+
+def test_check_for_empty_entries_all_optional_qs_blank(user_record_all_optional_qs_blank):
 
     for record in check_for_empty_entries(user_record_all_optional_qs_blank):
 
-        for i in REQUIRED_ENTRIES_INDICES:
+        for i in OPTIONAL_ENTRIES_INDICES:
 
             assert record[i] is None

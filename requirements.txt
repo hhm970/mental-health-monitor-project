@@ -1,6 +1,7 @@
 streamlit
 pandas
 pytest
+pytest-cov
 python-dotenv
 pylint
 altair

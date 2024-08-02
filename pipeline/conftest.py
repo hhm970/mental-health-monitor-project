@@ -1,6 +1,11 @@
 """Conftest file for tests in pipeline directory."""
 
+import datetime
+
 import pytest
+
+
+FAKE_TODAY = datetime.datetime(year=2024, month=7, day=4)
 
 # Fixtures for test_extract.py
 
@@ -62,6 +67,7 @@ def empty_sheets_api_response():
 
 
 # Fixtures for test_transform.py
+
 @pytest.fixture
 def example_extracted_json():
     return [
@@ -259,7 +265,7 @@ def example_user_records():
 
 
 @pytest.fixture
-def example_user_records_no_emotions():
+def example_user_records_no_emotions_empty_entries_formatted():
     return [
         [
             "12/06/2024 13:02:29",
@@ -267,7 +273,7 @@ def example_user_records_no_emotions():
             "8",
             "6",
             "8",
-            "",
+            None,
             "7",
             "10",
             "9",
@@ -277,11 +283,11 @@ def example_user_records_no_emotions():
         ],
         [
             "12/06/2024 15:07:39",
-            "",
-            "",
-            "",
-            "",
-            "",
+            None,
+            None,
+            None,
+            None,
+            None,
             "1",
             "1",
             "4",
@@ -295,7 +301,7 @@ def example_user_records_no_emotions():
             "6",
             "10",
             "4",
-            "",
+            None,
             "6",
             "5",
             "9",
@@ -305,13 +311,13 @@ def example_user_records_no_emotions():
         ],
         [
             "03/07/2024 16:06:29",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
             "10",
             "10",
             "",
@@ -343,3 +349,14 @@ def user_record_all_optional_qs_blank():
             "howard-haw-xuen.man@sigmalabs.co.uk"
         ]
     ]
+
+
+@pytest.fixture
+def patch_datetime_now(monkeypatch):
+
+    class mydatetime(datetime.datetime):
+        @classmethod
+        def now(cls):
+            return FAKE_TODAY
+
+    monkeypatch.setattr(datetime, 'datetime', mydatetime)
