@@ -21,7 +21,7 @@ def test_get_user_records_example_response():
 
     mock_file = MagicMock()
 
-    mock_file.name = "mock.json"
+    mock_file.name = "pipeline/mock.json"
 
     assert isinstance(get_user_records(mock_file.name), list)
 
