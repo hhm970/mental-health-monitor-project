@@ -59,7 +59,7 @@ def test_input_empty_data_into_json(empty_sheets_api_response):
     """Tests that the function input_api_data_into_json_file() returns None
     when given an empty object."""
 
-    json_filename = "mock.json"
+    json_filename = "pipeline/mock.json"
 
     assert input_api_data_into_json_file(
         empty_sheets_api_response, json_filename) is None
