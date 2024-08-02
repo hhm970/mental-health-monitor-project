@@ -9,8 +9,10 @@ venv/
 *.lock.hcl
 *tfstate.backup
 
-# JSON files - ignored due to large capacity
-*.json
+# Extracted JSON files - ignored due to large capacity.
+# Note that we exclude 20*.json, as every extracted file will have
+# the format YYYY-MM-DD.json. mock.json is needed for testing extract.py.
+20*.json
 
 # testing
 .pytest_cache
