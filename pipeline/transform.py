@@ -2,6 +2,7 @@
 and acquire the relevant parts of the data, ready to load into our database."""
 
 from datetime import datetime, timedelta
+from hashlib import sha256
 import json
 
 
@@ -101,9 +102,20 @@ def check_for_empty_entries(input_records: list[list]) -> list[list]:
     return input_records
 
 
+def hash_email_address(input_records: list[list]) -> list[list]:
+    """Given our user records, we input each email address into the SHA-256
+    algorithm to encrypt it."""
+
+    for record in input_records:
+
+        record[-1] = sha256(record[-1].encode()).hexdigest()
+
+    return input_records
+
+
 if __name__ == "__main__":
 
-    record_data = get_user_records("2024-07-10.json")
+    record_data = get_user_records("2024-09-24.json")
 
     indices_24hrs = filter_records_older_24hrs(record_data)
 
@@ -114,7 +126,11 @@ if __name__ == "__main__":
     record_data_24hrs_f_emotions = make_emotions_list(
         record_data_24hrs_noempty)
 
-    record_data_24hrs_formatted = make_all_scores_ints(
+    record_data_24hrs_f_scores = make_all_scores_ints(
         record_data_24hrs_f_emotions)
+
+    record_data_24hrs_formatted = hash_email_address(
+        record_data_24hrs_f_scores
+    )
 
     print(record_data_24hrs_formatted)

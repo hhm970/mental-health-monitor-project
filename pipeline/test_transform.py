@@ -3,7 +3,8 @@
 from unittest.mock import MagicMock
 
 from transform import (get_user_records, filter_records_older_24hrs,
-                       make_emotions_list, make_all_scores_ints, check_for_empty_entries)
+                       make_emotions_list, make_all_scores_ints,
+                       check_for_empty_entries)
 
 
 OPTIONAL_ENTRIES_INDICES = {1, 2, 3, 4, 5, 6, 7, 10}

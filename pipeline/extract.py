@@ -6,7 +6,7 @@ As the ETL pipeline runs every 24 hours, only records less than 24 hours old wil
 be stored in the JSON file.
 """
 
-from os import environ as ENV
+from os import environ as ENV, path
 from datetime import datetime
 import json
 import requests
@@ -45,11 +45,21 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    json_filename = datetime.today().strftime('%Y-%m-%d')
+    json_filename = f"{datetime.today().strftime('%Y-%m-%d')}"
 
     api_url = f"https://sheets.googleapis.com/v4/spreadsheets/{ENV['SPREADSHEET_ID']}/values/{ENV['SPREADSHEET_RANGE']}?key={ENV['API_KEY']}"
 
     api_data = get_sheets_api_data(api_url)
 
     if api_data is not None:
-        input_api_data_into_json_file(api_data, f"{json_filename}.json")
+        if not path.exists(f"./{json_filename}.json"):
+            input_api_data_into_json_file(api_data, f"{json_filename}.json")
+
+        else:
+            counter = 1
+            new_json_filename = f"{json_filename}({counter})"
+            while path.exists(f"./{new_json_filename}.json"):
+                counter += 1
+
+            input_api_data_into_json_file(
+                api_data, f"{new_json_filename}.json")
